@@ -1,12 +1,18 @@
 package main
 
-import "log"
+import (	
+	"log"
+
+	"github.com/nettokrt/golang_api_study/internal/env"
+)
+
 
 func main()  {
 
 	cfg := config{
-		addr:":3000",
+		addr: env.GetString("ADDR",":8080"),
 	}
+	
 	app := &application{
 		config: cfg,
 	}
