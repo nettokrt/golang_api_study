@@ -10,6 +10,7 @@ type User struct {
 	Username 	string 	`json:"username"`
 	Email 		string 	`json:"email"`
 	Password 	string 	`json:"-"`
+	Phone 		string 	`json:"phone"`	
 	CreatedAt string 	`json:"created_at"`
 }
 type UserStore struct {
@@ -18,13 +19,14 @@ type UserStore struct {
 
 func (s *UserStore) Create(ctx context.Context, user *User) error {
 	query := `
-  INSERT INTO users (username, email, password)
+  INSERT INTO users (username, email, password, Phone)
   VALUES ($1, $2, $3) RETURNING id, created_at`
 	err := s.db.QueryRowContext(
 			ctx, 
 			query, 
 			user.Username, 
 			user.Email, 
+			user.Phone,   // added phone number field
 			user.Password,
 		).Scan(
 			&user.ID, 
