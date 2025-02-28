@@ -8,6 +8,8 @@ import (
 type User struct {
 	ID 				int64 	`json:"id"`
 	Username 	string 	`json:"username"`
+	Firstname string 	`json:"firstname"`
+	Lastname 	string 	`json:"lastname"`
 	Email 		string 	`json:"email"`
 	Password 	string 	`json:"-"`
 	Phone 		string 	`json:"phone"`	
@@ -19,12 +21,14 @@ type UserStore struct {
 
 func (s *UserStore) Create(ctx context.Context, user *User) error {
 	query := `
-  INSERT INTO users (username, email, password, Phone)
+  INSERT INTO users (username, email, password, Phone, firstname, lastname)
   VALUES ($1, $2, $3) RETURNING id, created_at`
 	err := s.db.QueryRowContext(
 			ctx, 
 			query, 
 			user.Username, 
+			user.Firstname,
+			user.Lastname,
 			user.Email, 
 			user.Phone,   // added phone number field
 			user.Password,

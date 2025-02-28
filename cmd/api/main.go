@@ -20,7 +20,7 @@ func main()  {
 	}
 
 	db, err := db.New(
-		cfg.db.addr, 
+		cfg.db.addr,
 		cfg.db.maxOpenConns, 
 		cfg.db.maxIdleConns, 
 		cfg.db.maxIdleTime,
